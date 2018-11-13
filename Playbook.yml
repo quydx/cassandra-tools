@@ -1,0 +1,10 @@
+---
+- hosts: cassandra_servers
+  gather_facts: yes
+  remote_user: root
+  become: no
+  vars:
+    cluster_name: 106-HQV-cluster
+    seeds: 192.168.158.216,192.168.158.217,192.168.158.218
+  roles:
+    - installation

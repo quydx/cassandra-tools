@@ -1,0 +1,47 @@
+---
+- name: install java jdk8
+  yum:
+    name: java-1.8.0-openjdk
+    state: present
+
+- name: add cassandra repo  
+  yum_repository:
+    name: cassandra
+    description: Apache Cassandra
+    baseurl: https://www.apache.org/dist/cassandra/redhat/311x/
+    gpgcheck: no
+
+- name: install cassandra
+  yum:
+    name: cassandra
+    state: present
+
+- name: override cassandra.yaml file
+  template: src=cassandra.yaml dest=/etc/cassandra/conf/cassandra.yaml
+
+- name: create directory if they don't exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: cassandra
+    group: cassandra
+    mode: 0775
+  with_items:
+  - /commitlog
+  - /data
+  - /saved_caches
+  - /hints
+
+- name: enable cassandra
+  service:
+    name: cassandra
+    enabled: yes
+- name: Start service httpd, if not started
+  service:
+    name: cassandra
+    state: started
+
+# - name: Run Cassandra from bin folder
+#   command: ./cassandra -fR
+#   args:
+#     chdir: /root/apache-cassandra-3.11.2/bin/
