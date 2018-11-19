@@ -19,18 +19,18 @@
 - name: override cassandra.yaml file
   template: src=cassandra.yaml dest=/etc/cassandra/conf/cassandra.yaml
 
-- name: create directory if they don't exist
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: cassandra
-    group: cassandra
-    mode: 0775
-  with_items:
-  - /commitlog
-  - /data
-  - /saved_caches
-  - /hints
+// - name: create directory if they don't exist
+//   file:
+//     path: "{{ item }}"
+//     state: directory
+//     owner: cassandra
+//     group: cassandra
+//     mode: 0775
+//   with_items:
+//   - /commitlog
+//   - /data
+//   - /saved_caches
+//   - /hints
 
 - name: enable cassandra
   service:
