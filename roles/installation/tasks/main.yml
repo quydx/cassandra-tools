@@ -1,4 +1,9 @@
 ---
+- name: add hostname to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: {{ansible_hostname}}  {{ ansible_default_ipv4.address }}
+
 - name: install java jdk8
   yum:
     name: java-1.8.0-openjdk
@@ -19,18 +24,18 @@
 - name: override cassandra.yaml file
   template: src=cassandra.yaml dest=/etc/cassandra/conf/cassandra.yaml
 
-// - name: create directory if they don't exist
-//   file:
-//     path: "{{ item }}"
-//     state: directory
-//     owner: cassandra
-//     group: cassandra
-//     mode: 0775
-//   with_items:
-//   - /commitlog
-//   - /data
-//   - /saved_caches
-//   - /hints
+# - name: create directory if they don't exist
+   # file:
+   #   path: "{{ item }}"
+   #   state: directory
+   #   owner: cassandra
+   #   group: cassandra
+   #   mode: 0775
+   # with_items:
+   # - /commitlog
+   # - /data
+   # - /saved_caches
+   # - /hints
 
 - name: enable cassandra
   service:
